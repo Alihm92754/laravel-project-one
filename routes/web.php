@@ -2,17 +2,19 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\SubscriberController;
 use Illuminate\Support\Facades\Route;
 
-
+// THEME ROUTE
 Route::controller(ThemeController::class)->name('theme.')->group(function (){
     Route::get('/', 'index')->name('index');
     Route::get('/category', 'category')->name('category');
     Route::get('/contact', 'contact')->name('contact');
     Route::get('/single-blog', 'singleBlog')->name('singleBlog');
-    Route::get('/login', 'login')->name('login');
-    Route::get('/register', 'register')->name('register');
 });
+
+// SUBSCRIBER STORE ROUTE
+Route::post('subscriber/store', [SubscriberController::class, 'store'])->name('subscriber.store');
 
 
 Route::get('/dashboard', function () {
@@ -26,5 +28,6 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
+
 
 
