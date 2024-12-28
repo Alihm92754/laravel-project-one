@@ -2,14 +2,19 @@
 @section('title', 'Register')
 
 @section('content')
-@include('theme.partials.hero', ['title' => 'add New Blog'])  
+@include('theme.partials.hero', ['title' => 'Add New Blog'])  
 
   <!-- ================ contact section start ================= -->
   <section class="section-margin--small section-margin">
     <div class="container">
       <div class="row">
         <div class="col-12">
-          <form action="{{ route('blogs.store') }}" class="form-contact contact_form" method="POST" novalidate="novalidate" enctype="multipart/form-data">
+          @if(session('blogCreateStatus'))
+            <div class="alert alert-success">
+              {{ session('blogCreateStatus') }}
+            </div>
+          @endif
+          <form action="{{ route('blogs.store') }}" class="form-contact contact_form" method="POST" enctype="multipart/form-data">
             @csrf
             
             <div class="form-group">

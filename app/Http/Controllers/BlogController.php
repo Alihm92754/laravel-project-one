@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreBlogRequest;
 use App\Models\Blog;
 use App\Models\Category;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -21,16 +24,34 @@ class BlogController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
-        return view('theme.blogs.create', compact('categories'));
+        if(Auth::check()) {
+            $categories = Category::get();
+            return view('theme.blogs.create', compact('categories'));
+        }
+        abort(403);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBlogRequest $request)
     {
-        //
+        $data = $request->validated();
+        // Image Uploading
+        // 1- get image
+        $image = $request->image;
+        // 2- change it's current name
+        $newImageName = time() . '-' . $image->getClientOriginalName();
+        // 3- move image to my project folder: storage/app/public/blogs
+        $image->move('storage/blogs', $newImageName);
+        // 4- save new name to database record
+        $data['image'] = $newImageName;
+        $data['user_id'] = Auth::user()->id;
+        
+        // create new blog record
+        Blog::create($data);
+
+        return back()->with('blogCreateStatus', 'Blog Created Successfully!');
     }
 
     /**
