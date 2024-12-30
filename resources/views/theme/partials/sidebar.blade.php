@@ -31,7 +31,7 @@
                 <ul class="cat-list mt-20">
                   @foreach ($categories as $category)
                   <li>
-                    <a href="#" class="d-flex justify-content-between">
+                    <a href="{{ route('theme.category', ['id' => $category->id]) }}" class="d-flex justify-content-between">
                       <p>{{ $category->name }}</p>
                       <p>(03)</p>
                     </a>
@@ -40,7 +40,6 @@
                 </ul>
               </div>
               @endif
-
 
               <div class="single-sidebar-widget popular-post-widget">
                 <h4 class="single-sidebar-widget__title">Recent Post</h4>
