@@ -1,11 +1,12 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ThemeController;
+use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\SubscriberController;
-use Illuminate\Support\Facades\Route;
 
 // THEME ROUTE
 Route::controller(ThemeController::class)->name('theme.')->group(function (){
@@ -24,6 +25,9 @@ Route::post('contact/store', [ContactController::class, 'store'])->name('contact
 // BLOG ROUTE
 Route::get('/my-blogs', [BlogController::class, 'myBlogs'])->name('blogs.my-blogs');
 Route::resource('blogs', BlogController::class);
+
+// COMMENT ROUTE
+Route::post('comments/store', [CommentController::class, 'store'])->name('comments.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

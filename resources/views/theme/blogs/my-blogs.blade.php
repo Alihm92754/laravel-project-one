@@ -9,6 +9,11 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
+          @if(session('blogDeleteStatus'))
+            <div class="alert alert-success">
+              {{ session('blogDeleteStatus') }}
+            </div>
+          @endif
           <table class="table">
             <thead>
               <tr>
@@ -23,7 +28,14 @@
                     <td>
                       <a href="{{ route('blogs.show', ['blog' => $blog]) }}" target="_blank">{{ $blog->name }}</a>
                     </td>
-                    <td></td>
+                    <td>
+                      <a href="{{ route('blogs.edit', ['blog' => $blog]) }}" class="btn btn-sm btn-primary mr-2">Edit</a>
+                      <form action="{{ route('blogs.destroy', ['blog' => $blog]) }}" method="POST" id="delete_form" class="d-inline">
+                        @method('delete')
+                        @csrf
+                        <a href="javascript:$('form#delete_form').submit();" class="btn btn-sm btn-danger mr-2">Delete</a>
+                      </form>
+                    </td>
                   </tr>
                 @endforeach
               @endif
